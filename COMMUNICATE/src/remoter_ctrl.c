@@ -165,7 +165,7 @@ void commanderTask(void* param)
             // } else {
             //     send.thrust = flydata.thrust;
             // }
-
+            //修改判断条件，下发量程
             if (flydata.thrust <= 0 && send.ctrlMode == 0) {
                 send.thrust = 0;
             } else {
