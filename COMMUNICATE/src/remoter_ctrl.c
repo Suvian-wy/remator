@@ -122,8 +122,8 @@ void commanderTask(void* param)
             // flydata.thrust = limit(flydata.thrust, MIN_THRUST, max_thrust);
 
             //修改油门量程
-            flydata.thrust = percent.thrust * 100;
-            flydata.thrust += 0;
+            flydata.thrust = percent.thrust * 50;
+            flydata.thrust += 50;
             flydata.thrust = limit(flydata.thrust, 0, 100);
         }
         // ROLL
@@ -171,7 +171,6 @@ void commanderTask(void* param)
             } else {
                 send.thrust = flydata.thrust;
             }
-
 
             if (getTrimFlag() == true) {
                 send.pitch = 0;
