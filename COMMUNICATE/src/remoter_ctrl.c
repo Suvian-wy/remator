@@ -176,10 +176,10 @@ void commanderTask(void* param)
                 send.pitch = 0;
                 send.roll  = 0;
             } else {
-                send.pitch = 0;
-                send.roll  = flydata.pitch;
+                send.pitch = flydata.pitch;
+                send.roll  = flydata.roll;
             }
-            send.yaw       = flydata.roll;
+            send.yaw       = flydata.yaw;
             send.trimPitch = configParam.trim.pitch;
             send.trimRoll  = configParam.trim.roll;
 

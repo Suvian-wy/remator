@@ -73,9 +73,6 @@ void ADCtoFlyDataPercent(joystickFlyf_t* percent)
 
     // THRUST
     adcValue = getAdcValue(ADC_THRUST) - jsParam->thrust.mid;
-
-    // //修改右手油门
-    // adcValue = getAdcValue(ADC_PITCH) - jsParam->thrust.mid;
     adcValue = deadband(adcValue, MID_DB_THRUST);
     if (adcValue >= 0)
         percent->thrust = (float)adcValue / (jsParam->thrust.range_pos - MID_DB_THRUST - DB_RANGE);
@@ -84,20 +81,16 @@ void ADCtoFlyDataPercent(joystickFlyf_t* percent)
 
     // ROLL
     adcValue = getAdcValue(ADC_ROLL) - jsParam->roll.mid;
-
-    // //修改左手ROLL
-    // adcValue = getAdcValue(ADC_YAW) - jsParam->roll.mid;
     adcValue = deadband(adcValue, MID_DB_ROLL);
+    
+    //RoLL取反为了调整上下拉和左右拉的方向
     if (adcValue >= 0)
-        percent->roll = (float)adcValue / (jsParam->roll.range_pos - MID_DB_ROLL - DB_RANGE);
+        percent->roll = -(float)adcValue / (jsParam->roll.range_pos - MID_DB_ROLL - DB_RANGE);
     else
-        percent->roll = (float)adcValue / (jsParam->roll.range_neg - MID_DB_ROLL - DB_RANGE);
+        percent->roll = -(float)adcValue / (jsParam->roll.range_neg - MID_DB_ROLL - DB_RANGE);
 
     // PITCH
     adcValue = getAdcValue(ADC_PITCH) - jsParam->pitch.mid;
-
-    // //修改左手PITCH
-    // adcValue = getAdcValue(ADC_THRUST) - jsParam->pitch.mid;
     adcValue = deadband(adcValue, MID_DB_PITCH);
     if (adcValue >= 0)
         percent->pitch = (float)adcValue / (jsParam->pitch.range_pos - MID_DB_PITCH - DB_RANGE);
@@ -106,9 +99,6 @@ void ADCtoFlyDataPercent(joystickFlyf_t* percent)
 
     // YAW
     adcValue = getAdcValue(ADC_YAW) - jsParam->yaw.mid;
-
-    // //修改右手YAW
-    // adcValue = getAdcValue(ADC_ROLL) - jsParam->yaw.mid;
     adcValue = deadband(adcValue, MID_DB_YAW);
     if (adcValue >= 0)
         percent->yaw = (float)adcValue / (jsParam->yaw.range_pos - MID_DB_YAW - DB_RANGE);
@@ -171,18 +161,33 @@ enum dir_e getJoystick2Dir(u8 mode)
         havebackToCenter = true;
     if (havebackToCenter == true) //摇杆回到过中间位置
     {
-        if (adcValue.pitch > (jsParam->pitch.mid + DIR_MID_PITCH))
+        // if (adcValue.pitch > (jsParam->pitch.mid + DIR_MID_PITCH))
+        //     ret = FORWARD;
+        // else if (adcValue.pitch < (jsParam->pitch.mid - DIR_MID_PITCH))
+        //     ret = BACK;
+
+        // if (ret == BACK && adcValue.roll > (jsParam->roll.mid + DIR_MID_ROLL))
+        //     ret = BACK_RIGHT;
+        // else if (ret == BACK && adcValue.roll < (jsParam->roll.mid - DIR_MID_ROLL))
+        //     ret = BACK_LEFT;
+        // else if (adcValue.roll > (jsParam->roll.mid + DIR_MID_ROLL))
+        //     ret = RIGHT;
+        // else if (adcValue.roll < (jsParam->roll.mid - DIR_MID_ROLL))
+        //     ret = LEFT;
+
+        //按钮重回方向开锁
+        if (adcValue.roll > (jsParam->roll.mid + DIR_MID_ROLL))
             ret = FORWARD;
-        else if (adcValue.pitch < (jsParam->pitch.mid - DIR_MID_PITCH))
+        else if (adcValue.roll < (jsParam->roll.mid - DIR_MID_ROLL))
             ret = BACK;
 
-        if (ret == BACK && adcValue.roll > (jsParam->roll.mid + DIR_MID_ROLL))
+        if (ret == BACK && adcValue.pitch > (jsParam->pitch.mid + DIR_MID_PITCH))
             ret = BACK_RIGHT;
-        else if (ret == BACK && adcValue.roll < (jsParam->roll.mid - DIR_MID_ROLL))
+        else if (ret == BACK && adcValue.pitch < (jsParam->pitch.mid - DIR_MID_PITCH))
             ret = BACK_LEFT;
-        else if (adcValue.roll > (jsParam->roll.mid + DIR_MID_ROLL))
+        else if (adcValue.pitch > (jsParam->pitch.mid + DIR_MID_PITCH))
             ret = RIGHT;
-        else if (adcValue.roll < (jsParam->roll.mid - DIR_MID_ROLL))
+        else if (adcValue.pitch < (jsParam->pitch.mid - DIR_MID_PITCH))
             ret = LEFT;
 
         havebackToCenter = false; //摇杆离开了中间位置
