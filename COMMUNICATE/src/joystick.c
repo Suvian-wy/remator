@@ -17,7 +17,7 @@
 ********************************************************************************/
 
 //摇杆中间软件死区值（ADC值）
-#define MID_DB_THRUST		150	
+#define MID_DB_THRUST		300	
 #define MID_DB_YAW			300	
 #define MID_DB_PITCH		150
 #define MID_DB_ROLL			150

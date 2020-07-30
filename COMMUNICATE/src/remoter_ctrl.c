@@ -25,19 +25,19 @@
  * All rights reserved
  ********************************************************************************/
 
-#define LOW_SPEED_THRUST (95.0)
+#define LOW_SPEED_THRUST (99.0)
 #define LOW_SPEED_PITCH (10.0)
 #define LOW_SPEED_ROLL (10.0)
 
-#define MID_SPEED_THRUST (95.0)
+#define MID_SPEED_THRUST (99.0)
 #define MID_SPEED_PITCH (18.0)
 #define MID_SPEED_ROLL (18.0)
 
-#define HIGH_SPEED_THRUST (95.0)
+#define HIGH_SPEED_THRUST (99.0)
 #define HIGH_SPEED_PITCH (30.0)
 #define HIGH_SPEED_ROLL (30.0)
 
-#define MIN_THRUST (25.0)
+#define MIN_THRUST (50.0)
 #define ALT_THRUST (50.0)
 #define MAX_YAW (200.0)
 
@@ -117,14 +117,14 @@ void commanderTask(void* param)
             flydata.thrust += ALT_THRUST;
             flydata.thrust = limit(flydata.thrust, 0, 100);
         } else {
-            // flydata.thrust = percent.thrust * (max_thrust - MIN_THRUST);
-            // flydata.thrust += MIN_THRUST;
-            // flydata.thrust = limit(flydata.thrust, MIN_THRUST, max_thrust);
+            flydata.thrust = percent.thrust * (max_thrust - MIN_THRUST);
+            flydata.thrust += MIN_THRUST;
+            flydata.thrust = limit(flydata.thrust, MIN_THRUST, max_thrust);
 
-            //修改油门量程
-            flydata.thrust = percent.thrust * 50;
-            flydata.thrust += 50;
-            flydata.thrust = limit(flydata.thrust, 0, 100);
+            // //修改油门量程
+            // flydata.thrust = percent.thrust * 50;
+            // flydata.thrust += 50;
+            // flydata.thrust = limit(flydata.thrust, 0, 100);
         }
         // ROLL
         flydata.roll = percent.roll * max_roll;
@@ -160,26 +160,26 @@ void commanderTask(void* param)
                 break;
             }
 
-            // if (flydata.thrust <= MIN_THRUST && send.ctrlMode == 0) {
-            //     send.thrust = 0;
-            // } else {
-            //     send.thrust = flydata.thrust;
-            // }
-            //修改判断条件，下发量程
-            if (flydata.thrust <= 0 && send.ctrlMode == 0) {
+            if (flydata.thrust <= MIN_THRUST && send.ctrlMode == 0) {
                 send.thrust = 0;
             } else {
                 send.thrust = flydata.thrust;
             }
+            //修改判断条件，下发量程
+            // if (flydata.thrust <= 0 && send.ctrlMode == 0) {
+            //     send.thrust = 0;
+            // } else {
+            //     send.thrust = flydata.thrust;
+            // }
 
             if (getTrimFlag() == true) {
                 send.pitch = 0;
                 send.roll  = 0;
             } else {
-                send.pitch = flydata.pitch;
-                send.roll  = flydata.roll;
+                send.pitch = 0;
+                send.roll  = flydata.pitch;
             }
-            send.yaw       = flydata.yaw;
+            send.yaw       = flydata.roll;
             send.trimPitch = configParam.trim.pitch;
             send.trimRoll  = configParam.trim.roll;
 
