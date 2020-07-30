@@ -25,15 +25,15 @@
  * All rights reserved
  ********************************************************************************/
 
-#define LOW_SPEED_THRUST (99.0)
+#define LOW_SPEED_THRUST (100.0)
 #define LOW_SPEED_PITCH (10.0)
 #define LOW_SPEED_ROLL (10.0)
 
-#define MID_SPEED_THRUST (99.0)
+#define MID_SPEED_THRUST (100.0)
 #define MID_SPEED_PITCH (18.0)
 #define MID_SPEED_ROLL (18.0)
 
-#define HIGH_SPEED_THRUST (99.0)
+#define HIGH_SPEED_THRUST (100.0)
 #define HIGH_SPEED_PITCH (30.0)
 #define HIGH_SPEED_ROLL (30.0)
 
