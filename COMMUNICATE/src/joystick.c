@@ -72,10 +72,10 @@ void ADCtoFlyDataPercent(joystickFlyf_t* percent)
     s16 adcValue;
 
     // THRUST
-    // adcValue = getAdcValue(ADC_THRUST) - jsParam->thrust.mid;
+    adcValue = getAdcValue(ADC_THRUST) - jsParam->thrust.mid;
 
-    //修改右手油门
-    adcValue = getAdcValue(ADC_PITCH) - jsParam->thrust.mid;
+    // //修改右手油门
+    // adcValue = getAdcValue(ADC_PITCH) - jsParam->thrust.mid;
     adcValue = deadband(adcValue, MID_DB_THRUST);
     if (adcValue >= 0)
         percent->thrust = (float)adcValue / (jsParam->thrust.range_pos - MID_DB_THRUST - DB_RANGE);
@@ -83,10 +83,10 @@ void ADCtoFlyDataPercent(joystickFlyf_t* percent)
         percent->thrust = (float)adcValue / (jsParam->thrust.range_neg - MID_DB_THRUST - DB_RANGE);
 
     // ROLL
-    // adcValue = getAdcValue(ADC_ROLL) - jsParam->roll.mid;
+    adcValue = getAdcValue(ADC_ROLL) - jsParam->roll.mid;
 
-    //修改左手ROLL
-    adcValue = getAdcValue(ADC_YAW) - jsParam->roll.mid;
+    // //修改左手ROLL
+    // adcValue = getAdcValue(ADC_YAW) - jsParam->roll.mid;
     adcValue = deadband(adcValue, MID_DB_ROLL);
     if (adcValue >= 0)
         percent->roll = (float)adcValue / (jsParam->roll.range_pos - MID_DB_ROLL - DB_RANGE);
@@ -94,10 +94,10 @@ void ADCtoFlyDataPercent(joystickFlyf_t* percent)
         percent->roll = (float)adcValue / (jsParam->roll.range_neg - MID_DB_ROLL - DB_RANGE);
 
     // PITCH
-    // adcValue = getAdcValue(ADC_PITCH) - jsParam->pitch.mid;
+    adcValue = getAdcValue(ADC_PITCH) - jsParam->pitch.mid;
 
-    //修改左手PITCH
-    adcValue = getAdcValue(ADC_THRUST) - jsParam->pitch.mid;
+    // //修改左手PITCH
+    // adcValue = getAdcValue(ADC_THRUST) - jsParam->pitch.mid;
     adcValue = deadband(adcValue, MID_DB_PITCH);
     if (adcValue >= 0)
         percent->pitch = (float)adcValue / (jsParam->pitch.range_pos - MID_DB_PITCH - DB_RANGE);
@@ -105,10 +105,10 @@ void ADCtoFlyDataPercent(joystickFlyf_t* percent)
         percent->pitch = (float)adcValue / (jsParam->pitch.range_neg - MID_DB_PITCH - DB_RANGE);
 
     // YAW
-    // adcValue = getAdcValue(ADC_YAW) - jsParam->yaw.mid;
+    adcValue = getAdcValue(ADC_YAW) - jsParam->yaw.mid;
 
-    //修改右手YAW
-    adcValue = getAdcValue(ADC_ROLL) - jsParam->yaw.mid;
+    // //修改右手YAW
+    // adcValue = getAdcValue(ADC_ROLL) - jsParam->yaw.mid;
     adcValue = deadband(adcValue, MID_DB_YAW);
     if (adcValue >= 0)
         percent->yaw = (float)adcValue / (jsParam->yaw.range_pos - MID_DB_YAW - DB_RANGE);

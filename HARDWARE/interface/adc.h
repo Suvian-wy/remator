@@ -14,10 +14,10 @@
 ////////////////////////////////////////////////////////////////////////////////// 
 
 #define  ADC_BAT		0
-#define  ADC_ROLL		1
-#define  ADC_PITCH	 	2
-#define  ADC_YAW		3
-#define  ADC_THRUST		4
+#define  ADC_ROLL		3
+#define  ADC_PITCH	 	4
+#define  ADC_YAW		1
+#define  ADC_THRUST		2
 
 //初始化ADC，使用DMA传输
 void Adc_Init(void);
