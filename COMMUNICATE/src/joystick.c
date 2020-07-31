@@ -176,18 +176,18 @@ enum dir_e getJoystick2Dir(u8 mode)
         //     ret = LEFT;
 
         //按钮重回方向开锁
-        if (adcValue.roll > (jsParam->roll.mid + DIR_MID_ROLL))
+        if (adcValue.pitch > (jsParam->pitch.mid + DIR_MID_ROLL))
             ret = FORWARD;
-        else if (adcValue.roll < (jsParam->roll.mid - DIR_MID_ROLL))
+        else if (adcValue.pitch < (jsParam->pitch.mid - DIR_MID_ROLL))
             ret = BACK;
 
-        if (ret == BACK && adcValue.pitch > (jsParam->pitch.mid + DIR_MID_PITCH))
+        if (ret == BACK && adcValue.roll > (jsParam->roll.mid + DIR_MID_PITCH))
             ret = BACK_RIGHT;
-        else if (ret == BACK && adcValue.pitch < (jsParam->pitch.mid - DIR_MID_PITCH))
+        else if (ret == BACK && adcValue.roll < (jsParam->roll.mid - DIR_MID_PITCH))
             ret = BACK_LEFT;
-        else if (adcValue.pitch > (jsParam->pitch.mid + DIR_MID_PITCH))
+        else if (adcValue.roll > (jsParam->roll.mid + DIR_MID_PITCH))
             ret = RIGHT;
-        else if (adcValue.pitch < (jsParam->pitch.mid - DIR_MID_PITCH))
+        else if (adcValue.roll < (jsParam->roll.mid - DIR_MID_PITCH))
             ret = LEFT;
 
         havebackToCenter = false; //摇杆离开了中间位置
