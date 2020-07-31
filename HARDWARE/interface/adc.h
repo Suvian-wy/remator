@@ -14,8 +14,8 @@
 ////////////////////////////////////////////////////////////////////////////////// 
 
 #define  ADC_BAT		0
-#define  ADC_ROLL		4       //左手上下拉为ROLL
-#define  ADC_PITCH	 	3       //左手左右拉为PITCH
+#define  ADC_ROLL		3       //左手左右拉为ROLL
+#define  ADC_PITCH	 	4       //左手上下拉为PITCH
 #define  ADC_YAW		1
 #define  ADC_THRUST		2
 

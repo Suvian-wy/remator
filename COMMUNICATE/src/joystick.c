@@ -85,9 +85,9 @@ void ADCtoFlyDataPercent(joystickFlyf_t* percent)
     
     //RoLL取反为了调整上下拉和左右拉的方向
     if (adcValue >= 0)
-        percent->roll = -(float)adcValue / (jsParam->roll.range_pos - MID_DB_ROLL - DB_RANGE);
+        percent->roll = (float)adcValue / (jsParam->roll.range_pos - MID_DB_ROLL - DB_RANGE);
     else
-        percent->roll = -(float)adcValue / (jsParam->roll.range_neg - MID_DB_ROLL - DB_RANGE);
+        percent->roll = (float)adcValue / (jsParam->roll.range_neg - MID_DB_ROLL - DB_RANGE);
 
     // PITCH
     adcValue = getAdcValue(ADC_PITCH) - jsParam->pitch.mid;
