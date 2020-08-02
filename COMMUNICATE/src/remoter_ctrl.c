@@ -67,6 +67,7 @@ void sendRmotorData(u8* data, u8 len)
     p.data[0] = REMOTOR_DATA;
     memcpy(p.data + 1, data, len);
     radiolinkSendPacket(&p);
+    usblinkSendPacket(&p);
 }
 
 float limit(float value, float min, float max)
