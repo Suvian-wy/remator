@@ -86,11 +86,11 @@ void beepInit(void)
 
 void runBeepAcktion(enum beepAction action)
 {
-    // currentRun = action;
-    // beepAction[action].isActive = true;
-    // xTimerChangePeriod(beepTimer, beepAction[action].waitMS, portMAX_DELAY);
-    // BEEP = 1;
-    // beepEnable = true;
+    currentRun = action;
+    beepAction[action].isActive = true;
+    xTimerChangePeriod(beepTimer, beepAction[action].waitMS, portMAX_DELAY);
+    BEEP = 1;
+    beepEnable = true;
 }
 
 void stopBeepAcktion(enum beepAction action)
