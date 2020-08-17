@@ -162,9 +162,9 @@ void usblinkRxTask(void* param)
                 {
                     //test//////////////////////////////////////////
                     if ((22 == rxPacket.msgID) && (rxPacket.dataLen == 1) && (rxPacket.data[0] == 1)) {
-                        runBeep(LOWPOWER_BEEP);
+                        // runBeep(LOWPOWER_BEEP);
                     } else if ((22 == rxPacket.msgID) && (rxPacket.dataLen == 1) && (rxPacket.data[0] == 0)) {
-                        stopBeepAcktion(LOWPOWER_BEEP);
+                        // stopBeepAcktion(LOWPOWER_BEEP);
                     }
                     /////////////////////////////////////////////
                     xQueueSend(rxQueue, &rxPacket, 0);

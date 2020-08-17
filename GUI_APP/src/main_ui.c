@@ -221,9 +221,9 @@ void main_ui(void)
 	if(RCLowPower!=RCLowPowerOld || MFLowPower!=MFLowPowerOld)
 	{
 		if(RCLowPower==true || MFLowPower==true)
-			runBeepAcktion(LOWPOWER_BEEP);
+			// runBeepAcktion(LOWPOWER_BEEP);
 		else 
-			stopBeepAcktion(LOWPOWER_BEEP);
+			// stopBeepAcktion(LOWPOWER_BEEP);
 		RCLowPowerOld = RCLowPower;
 		MFLowPowerOld = MFLowPower;
 	}
