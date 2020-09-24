@@ -46,7 +46,7 @@ static joystickFlyf_t flydata;
 /*发送遥控命令*/
 void sendRmotorCmd(u8 cmd, u8 data)
 {
-    if (radioinkConnectStatus() == false)
+    if (radioinkConnectStatus() == false && getFlightPowerStatus() == false)
         return;
     atkp_t p;
     p.msgID   = DOWN_REMOTOR;
@@ -59,7 +59,7 @@ void sendRmotorCmd(u8 cmd, u8 data)
 /*发送遥控控制数据*/
 void sendRmotorData(u8* data, u8 len)
 {
-    if (radioinkConnectStatus() == false)
+    if (radioinkConnectStatus() == false && getFlightPowerStatus() == false)
         return;
     atkp_t p;
     p.msgID   = DOWN_REMOTOR;
@@ -68,6 +68,17 @@ void sendRmotorData(u8* data, u8 len)
     memcpy(p.data + 1, data, len);
     radiolinkSendPacket(&p);
     usblinkSendPacket(&p);
+}
+// TEST：发送电源控制指令
+void sendPowerCmd(u8 data)
+{
+    //     if (radioinkConnectStatus() == false)
+    //        return;
+    atkp_t p;
+    p.msgID   = DOWN_POWERCMD;
+    p.dataLen = 1;
+    p.data[0] = data;
+    radiolinkSendPacket(&p);
 }
 
 float limit(float value, float min, float max)
@@ -189,7 +200,7 @@ void commanderTask(void* param)
         }
 
         /*发送遥控数据至飞控*/
-        if (radioinkConnectStatus() == true) {
+        if (radioinkConnectStatus() == true && getFlightPowerStatus() == true) {
             atkp_t            p;
             joystickFlyui16_t rcdata;
 
