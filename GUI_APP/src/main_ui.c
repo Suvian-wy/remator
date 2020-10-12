@@ -65,10 +65,10 @@ static void flight(void)
 
     /*遥控器解锁、加锁*/
     if (getJoystick1Dir(1) == BACK_LEFT && getJoystick2Dir(1) == BACK_RIGHT) {
-        RCLock = true;
+        RCLock = false;
     }
     if (getJoystick1Dir(1) == BACK_RIGHT && getJoystick2Dir(1) == BACK_LEFT) {
-        RCLock = false;
+        RCLock = true;
     }
 
     /*显示控制模式、锁头、飞行模式*/

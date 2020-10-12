@@ -13,11 +13,17 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 
 
+// #define  ADC_BAT		0
+// #define  ADC_ROLL		3       //左手左右拉为ROLL
+// #define  ADC_PITCH	 	4       //左手上下拉为PITCH
+// #define  ADC_YAW		1
+// #define  ADC_THRUST		2
+
 #define  ADC_BAT		0
-#define  ADC_ROLL		3       //左手左右拉为ROLL
-#define  ADC_PITCH	 	4       //左手上下拉为PITCH
-#define  ADC_YAW		1
-#define  ADC_THRUST		2
+#define  ADC_ROLL		1       
+#define  ADC_PITCH	 	2       
+#define  ADC_YAW		3
+#define  ADC_THRUST		4
 
 //初始化ADC，使用DMA传输
 void Adc_Init(void);
