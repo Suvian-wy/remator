@@ -1,11 +1,12 @@
 #include "usart.h"
+#include "uart1.h"
 #include "delay.h"
 #include "led.h"
 #include "key.h"
 #include "oled.h"
 #include "24l01.h"
 #include "adc.h"
-#include "hw_config.h"
+//#include "hw_config.h"
 #include "config_param.h"
 #include "beep.h"
 #include "radiolink.h"
@@ -46,8 +47,9 @@ int main(void)
 	beepInit();			/*蜂鸣器初始化*/
 	keyInit();			/*按键初始化*/
 	joystickInit();		/*摇杆初始化*/
-	usb_vcp_init();		/*usb虚拟串口初始化*/
-	
+	// usb_vcp_init();		/*usb虚拟串口初始化*/
+	usbInit();
+
 	radiolinkInit();	/*无线通信初始化*/
 	usblinkInit();		/*usb通信初始化*/
 	displayInit();		/*显示初始化*/
@@ -65,7 +67,7 @@ void startTask(void *param)
 	
 	xTaskCreate(radiolinkTask, "RADIOLINK", 100, NULL, 6, &radiolinkTaskHandle);/*创建无线连接任务*/
 	
-	xTaskCreate(usblinkTxTask, "USBLINK_TX", 100, NULL, 5, NULL);	/*创建usb发送任务*/
+//	xTaskCreate(usblinkTxTask, "USBLINK_TX", 100, NULL, 5, NULL);	/*创建usb发送任务*/
 	xTaskCreate(usblinkRxTask, "USBLINK_RX", 100, NULL, 5, NULL);	/*创建usb接收任务*/
 	
 	xTaskCreate(commanderTask, "COMMANDER", 100, NULL, 4, NULL);	/*创建飞控指令发送任务*/

@@ -1,6 +1,8 @@
 #include "usblink.h"
-#include "hw_config.h"
-#include "usb_pwr.h"
+#include "led.h"
+//#include "hw_config.h"
+// #include "usb_pwr.h"
+#include "uart1.h"
 #include <string.h>
 /*FreeRtos includes*/
 #include "FreeRTOS.h"
@@ -8,10 +10,10 @@
 #include "queue.h"
 #include "task.h"
 
-/********************************************************************************	 
+/********************************************************************************
  * 本程序只供学习使用，未经作者许可，不得用于其它任何用途
  * ALIENTEK MiniFly_Remotor
- * USB通信驱动代码	
+ * USB通信驱动代码
  * 正点原子@ALIENTEK
  * 技术论坛:www.openedv.com
  * 创建日期:2018/6/1
@@ -19,7 +21,7 @@
  * 版权所有，盗版必究。
  * Copyright(C) 广州市星翼电子科技有限公司 2014-2024
  * All rights reserved
-********************************************************************************/
+ ********************************************************************************/
 
 #define USBLINK_TX_QUEUE_SIZE 16
 #define USBLINK_RX_QUEUE_SIZE 16
@@ -33,8 +35,8 @@ static enum {
     waitForChksum1,
 } rxState;
 
-static bool isInit;
-static atkp_t rxPacket;
+static bool         isInit;
+static atkp_t       rxPacket;
 static xQueueHandle txQueue;
 static xQueueHandle rxQueue;
 
@@ -80,13 +82,13 @@ bool usblinkReceivePacketBlocking(atkp_t* p)
 void usblinkTxTask(void* param)
 {
     atkp_t p;
-    u8 sendBuffer[64];
-    u8 cksum;
-    u8 dataLen;
-    while (bDeviceState != CONFIGURED) //等usb配置成功
-    {
-        vTaskDelay(1000);
-    }
+    u8     sendBuffer[64];
+    u8     cksum;
+    u8     dataLen;
+    // while (bDeviceState != CONFIGURED) //等usb配置成功
+    // {
+    //     vTaskDelay(1000);
+    // }
     while (1) {
         xQueueReceive(txQueue, &p, portMAX_DELAY);
         if (p.msgID != UP_RADIO) /*NRF51822的数据包不上传*/
@@ -105,11 +107,11 @@ void usblinkTxTask(void* param)
                 for (int i = 0; i < p.dataLen + 4; i++) {
                     cksum += sendBuffer[i];
                 }
-                dataLen = p.dataLen + 5;
+                dataLen                 = p.dataLen + 5;
                 sendBuffer[dataLen - 1] = cksum;
             }
             // if(p.msgID == UP_STATUS){
-            usbsendData(sendBuffer, dataLen);
+            usbSendData(sendBuffer, dataLen);
             // }
         }
     }
@@ -120,15 +122,15 @@ void usblinkRxTask(void* param)
 {
     u8 c;
     u8 dataIndex = 0;
-    u8 cksum = 0;
-    rxState = waitForStartByte1;
+    u8 cksum     = 0;
+    rxState      = waitForStartByte1;
 
     while (1) {
         if (usbGetDataWithTimout(&c)) {
             switch (rxState) {
             case waitForStartByte1:
                 rxState = (c == DOWN_BYTE1) ? waitForStartByte2 : waitForStartByte1;
-                cksum = c;
+                cksum   = c;
                 break;
             case waitForStartByte2:
                 rxState = (c == DOWN_BYTE2) ? waitForMsgID : waitForStartByte1;
@@ -136,14 +138,14 @@ void usblinkRxTask(void* param)
                 break;
             case waitForMsgID:
                 rxPacket.msgID = c;
-                rxState = waitForDataLength;
+                rxState        = waitForDataLength;
                 cksum += c;
                 break;
             case waitForDataLength:
                 if (c <= ATKP_MAX_DATA_SIZE) {
                     rxPacket.dataLen = c;
-                    dataIndex = 0;
-                    rxState = (c > 0) ? waitForData : waitForChksum1; /*c=0,数据长度为0，校验1*/
+                    dataIndex        = 0;
+                    rxState          = (c > 0) ? waitForData : waitForChksum1; /*c=0,数据长度为0，校验1*/
                     cksum += c;
                 } else {
                     rxState = waitForStartByte1;
@@ -160,7 +162,7 @@ void usblinkRxTask(void* param)
             case waitForChksum1:
                 if (cksum == c) /*所有校验正确*/
                 {
-                    //test//////////////////////////////////////////
+                    // test//////////////////////////////////////////
                     if ((22 == rxPacket.msgID) && (rxPacket.dataLen == 1) && (rxPacket.data[0] == 1)) {
                         // runBeep(LOWPOWER_BEEP);
                     } else if ((22 == rxPacket.msgID) && (rxPacket.dataLen == 1) && (rxPacket.data[0] == 0)) {
@@ -168,6 +170,8 @@ void usblinkRxTask(void* param)
                     }
                     /////////////////////////////////////////////
                     xQueueSend(rxQueue, &rxPacket, 0);
+                    LED_BLUE = 0;
+
                 } else {
                     rxState = waitForStartByte1;
                 }

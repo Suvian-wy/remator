@@ -8,6 +8,7 @@
 #include "main_ui.h"
 #include "radiolink.h"
 #include "trim_ui.h"
+#include "uart1.h"
 /*FreeRtos includes*/
 #include "FreeRTOS.h"
 #include "task.h"
