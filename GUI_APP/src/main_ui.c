@@ -133,8 +133,9 @@ static void flight(void)
     }
 
     if (keyState == KEY_L_LONG_PRESS) {
+        u8 powerOn        = !flightPowerStatus;
         flightPowerStatus = true; //确保这条消息一定能够发出去
-        sendPowerCmd(0);
+        sendPowerCmd(powerOn);
     }
 
     /*事件处理*/

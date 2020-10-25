@@ -121,7 +121,7 @@ void radiolinkTask(void* param)
     u8     cout;
     while (1) {
         if (getFlightPowerStatus()) {
-            // vTaskDelay(1000);
+
             nrf_txPacket((u8*)&tx_p, tx_p.dataLen + 2);
             xSemaphoreTake(nrfIT, 1000);
             nrfEvent_e status = nrf_checkEventandRxPacket((u8*)&rx_p, &rx_len);
